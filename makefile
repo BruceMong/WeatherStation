@@ -76,7 +76,7 @@ TARGET = main
 
 # Where do you keep the official Arduino software package?
 ARDUINO_DIR = /usr/share/arduino
-HOME_LIB = $(HOME)/Documents/Arduino/libraries
+HOME_LIB = /home/kaz/project/WeatherStation/librairies
 # path to ATTiny files look at http://code.google.com/p/arduino-tiny/
 ATTINY_DIR=$(ARDUINO_DIR)/hardware/tiny
 
