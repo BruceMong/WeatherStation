@@ -187,6 +187,8 @@ SERIALDEV := $(firstword $(wildcard \
 SERIALDEVGUESS := 1
 endif
 
+BOARD = uno
+
 # no board?
 ifndef BOARD
 ifneq "$(MAKECMDGOALS)" "boards"
