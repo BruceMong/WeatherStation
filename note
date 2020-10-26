@@ -1,0 +1,41 @@
+
+
+
+
+
+
+faire gaffe aux modif des dates qui risque de faire planter le temps d'attente 30min
+faire le traitement check heure date patatittata
+faire un close si chagement de mode 
+faire un goto en exit du mode config pour le remettre au début du mode normal
+to do:
+début du mode Maintenance faire 
+closeSD()
+ferme tout les fichier +
+SD.end(CHIPSELECTPIN); // < useless ? 
+
+
+
+à la fin du mode Maintenance refaire un initSD()
+
+faire une ft_check memory qui compte la mémoire restante de la carte sd
+et qui met dans une variables si 
+
+faire une fonction recursive qui prend la size de toute la mémoire
+
+
+
+
+Température de l'eau (analogique)
+
+Force du courant marin (I2C)
+
+Force du vent (I2C)
+
+Taux de particules fines (2-wire)
+
+
+
+REVOIR 
+Ft_acqui CAPTEURS
+et SaveDataSDcard
