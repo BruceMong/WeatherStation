@@ -1,83 +1,11 @@
-#include <SoftwareSerial.h>
-#include <Wire.h>
-#include "DS1307.h"
-#include <SPI.h>
-#include <SD.h>
+/**********************************************************************/
+/***  fichier: main.c                                               ***/
+/***  tout le programme sauf la partie config                       ***/
+/**********************************************************************/
 
-#include <avr/pgmspace.h>
-
-#include "ft_getTime.h"
-
-//inclusion du define de la version + numérot de lot via makefile (avant compil)
-
-
-
-#define NB_CAPTORS 4
-
-#define GREENPUSHPIN PIN
-#define REDPUSHPIN PIN
-
-#define REDLEDPIN PIN
-#define GREENLEDPIN PIN
-#define BLUELEDPIN PIN
-
-#define CHIPSELECTPIN PIN
-
-#define LUMIN_PIN PIN
-#define TEMP_AIR_PIN PIN
-#define HYGR_PIN PIN
-#define PRESSURE_PIN PIN
-
-//info SD card
-#define SIZE_OF_SD_IN_KB 256000
-#define SIZE_OF_CLUSTER_IN_KB 4
-
-SoftwareSerial SoftSerial(2, 3); // Serial already used for serial communication GPS connected on D2 port on Grove Shield
-DS1307 clock;//define a object of DS1307 class RTC Clock on I2C port on Grove Shield
-
-volatile int firstLoop = 0; //sert pour le mod config du début
-
-volatile int modConfig = 0;
-volatile int modEco = 0;
-volatile int modMaintenance = 0;
-
-volatile boolean redPush = false;
-volatile boolean greenPush = false;
-volatile short greenTimer = 0;
-volatile short redTimer = 0;
-
-const PROGMEM int SIZE_SD_CARD = SIZE_OF_SD_IN_KB;
-const PROGMEM short FILE_MAX_SIZE; //ptetre pas volatile du coup // oui faut mettre const sinon plant
-const PROGMEM short LOG_INTERVALL; 
-const PROGMEM short TIMEOUT;    // si short impossible penser a casté en short pour la suite 
-
-
-volatile int compteurEco = 0;  //sert pour faire le modulo 2 (mesure) voir shéma
-
-String nameFile2;
-String nameFile;
-File fichier;
-File fichier2;
-
-typedef struct
-{
-  PROGMEM String name;
-  PROGMEM short working;
-  PROGMEM String lowName;
-  PROGMEM short lowValue;
-  PROGMEM String highName;
-  PROGMEM short highValue;
-
-  PROGMEM short maxDom;
-  PROGMEM short minDom;
-
-  PROGMEM short pinCap;
-
-  short value;
-
-} Parametre;
-
-Parametre capteurs[NB_CAPTORS];
+#include "main.h"
+#include "ft_configuration.h"
+#include "ft_time.h"
 
 void RGB_color(short red_light_value, short green_light_value, short blue_light_value)
  {
