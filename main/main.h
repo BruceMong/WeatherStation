@@ -15,19 +15,19 @@
 //#define NUM_LOT 12
 
 //PIN à définir plus tard 
-#define GREENPUSHPIN PIN
-#define REDPUSHPIN PIN
+#define GREENPUSHPIN 5
+#define REDPUSHPIN 9
 
-#define REDLEDPIN PIN
-#define GREENLEDPIN PIN
-#define BLUELEDPIN PIN
+#define REDLEDPIN 8
+#define GREENLEDPIN 6
+#define BLUELEDPIN 5
 
-#define CHIPSELECTPIN PIN
+#define CHIPSELECTPIN 4
 
-#define LUMIN_PIN PIN
-#define TEMP_AIR_PIN PIN
-#define HYGR_PIN PIN
-#define PRESSURE_PIN PIN
+#define LUMIN_PIN 5
+#define TEMP_AIR_PIN 4
+#define HYGR_PIN 2
+#define PRESSURE_PIN 2
 
 //info SD card
 #define SIZE_OF_SD 256
@@ -53,15 +53,6 @@ typedef struct
 } Parametre;
 
 Parametre capteurs[NB_CAPTORS];  
-if(NB_CAPTORS >= 1) capteurs[0];
-if(NB_CAPTORS >= 2) capteurs[1];
-if(NB_CAPTORS >= 3) capteurs[2];
-if(NB_CAPTORS >= 4) capteurs[3];
-  //module complémentaire à incorporer au projet
-if(NB_CAPTORS >= 5) capteurs[4];
-if(NB_CAPTORS >= 6) capteurs[5];
-if(NB_CAPTORS >= 7) capteurs[6];
-if(NB_CAPTORS >= 8) capteurs[7];
 
 volatile int firstLoop = 0; //sert pour le mod config du début
 
@@ -74,7 +65,7 @@ volatile boolean greenPush = false;
 volatile short greenTimer = 0;
 volatile short redTimer = 0;
 
-int SIZE_SD_CARD = SIZE_OF_SD * 1000;
+long SIZE_SD_CARD_IN_KB = SIZE_OF_SD * 1000;
 short FILE_MAX_SIZE; //ptetre pas volatile du coup // oui faut mettre const sinon plant
 short LOG_INTERVALL; 
 short TIMEOUT;    // si short impossible penser a casté en short pour la suite 

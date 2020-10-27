@@ -58,10 +58,10 @@ void ft_checkSizeSDcard() //compte le nombre de fichier
     File entry = dir.openNextFile()
     if(!entry)
     {
-      SIZE_SD_CARD = SIZE_SD_CARD - (SIZE_OF_CLUSTER_IN_KB * i);
+      SIZE_SD_CARD_IN_KB = SIZE_SD_CARD_IN_KB - ( long(SIZE_OF_CLUSTER_IN_KB * i));
       return;
     }
-    i++;
+  i++;
   }
 }
 
@@ -342,7 +342,7 @@ void ft_SaveDataSDcard(String dataString)
             fichier2.write(fichier.read());
           fichier.close();                    // on ferme les deux 
           fichier2.close();
-          SIZE_SD_CARD = SIZE_SD_CARD - SIZE_OF_CLUSTER_IN_KB;
+          SIZE_SD_CARD_IN_KB = SIZE_SD_CARD_IN_KB - long(SIZE_OF_CLUSTER_IN_KB);
           if(!SD.remove(nameFile))           //et on suppr le premier, xx_0
           {
             ft_error_led(255, 0, 0, 255, 255, 255, 2, 1); //Erreur d’accès ou d’écriture sur la carte SD
@@ -400,9 +400,9 @@ void loop()
 
   //**** Acquisition 
 
-  //String dataString = "";
-  char* dataString;
-  dataString = malloc(sizeof(char) * (NB_CAPTORS * 4) + 8 + 8);
+  String dataString = "";
+  //char* dataString;
+  //dataString = malloc(sizeof(char) * (NB_CAPTORS * 4) + 8 + 8);
 
 
   //horloge
@@ -440,17 +440,7 @@ void loop()
 
 
 
-
-
 //--------------------------------------------------------------------------------------------------------------
-
-
-
-
-
-
-
-
 
 
 
@@ -671,7 +661,7 @@ void ft_changeClock(char *str)
   {
     clock.fillByHMS(hour, minute, seconde);//15:28 30"
     clock.setTime();//write time to the RTC chip
-    Serial.println(F("[DONE] Heure changé avec succès :" + getTime())); 
+    Serial.println("[DONE] Heure changé avec succès :" + getTime()); 
   }
   else
     Serial.println(F("[ERROR] Erreur du domaine de definition, valeur attendu: HEURE{0-23}:MINUTE{0-59}:SECONDE{0-59}"));
@@ -996,26 +986,7 @@ void configuration()
 
 
 
-
-
-
-
-
-
-
-
-
-
 //------------------------------------------------------------------------------
-
-
-
-
-
-
-
-
-
 
 
 
