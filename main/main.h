@@ -6,6 +6,7 @@
 #ifndef MAIN_H
 #define MAIN_H
 
+//#include <SoftwareSerial.h>
 
 //inclusion du define de la version + numérot de lot via makefile (avant compil)
 //exmple aperçu :
@@ -34,8 +35,6 @@
 
 #define NB_CAPTORS 4
 
-SoftwareSerial SoftSerial(2, 3); // Serial already used for serial communication GPS connected on D2 port on Grove Shield
-DS1307 clock;//define a object of DS1307 class RTC Clock on I2C port on Grove Shield
 
 typedef struct
 {
@@ -54,21 +53,21 @@ typedef struct
 } Parametre;
 
 Parametre capteurs[NB_CAPTORS];  
-  if(NB_CAPTORS >= 1) capteurs[0];
-  if(NB_CAPTORS >= 2) capteurs[1];
-  if(NB_CAPTORS >= 3) capteurs[2];
-  if(NB_CAPTORS >= 4) capteurs[3];
+if(NB_CAPTORS >= 1) capteurs[0];
+if(NB_CAPTORS >= 2) capteurs[1];
+if(NB_CAPTORS >= 3) capteurs[2];
+if(NB_CAPTORS >= 4) capteurs[3];
   //module complémentaire à incorporer au projet
-  if(NB_CAPTORS >= 5) capteurs[4];
-  if(NB_CAPTORS >= 6) capteurs[5];
-  if(NB_CAPTORS >= 7) capteurs[6];
-  if(NB_CAPTORS >= 8) capteurs[7];
+if(NB_CAPTORS >= 5) capteurs[4];
+if(NB_CAPTORS >= 6) capteurs[5];
+if(NB_CAPTORS >= 7) capteurs[6];
+if(NB_CAPTORS >= 8) capteurs[7];
 
 volatile int firstLoop = 0; //sert pour le mod config du début
 
-volatile int modConfig = 0;   //faire bool quand j'ai temps
-volatile int modEco = 0;
-volatile int modMaintenance = 0;
+volatile boolean modConfig = false;   //faire bool quand j'ai temps
+volatile boolean modEco = false;
+volatile boolean modMaintenance = false;
 
 volatile boolean redPush = false;
 volatile boolean greenPush = false;
