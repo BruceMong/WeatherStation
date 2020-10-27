@@ -3,12 +3,15 @@
 /***  tout le programme sauf la partie config                       ***/
 /**********************************************************************/
 
+// je déclare les libs dans le .c et non dans le .h car sinon bug du makefile jcpa pq 
 #include <SoftwareSerial.h> //UART GPS 
 #include <Wire.h> //communication led 
 #include "DS1307.h" // clock RTC //bizarre 
 #include <SPI.h> //pour communication SPI ( carte SD) 
 #include <SD.h> //pour la carte SD 
 #include <avr/pgmspace.h> //PROGMEM library
+//
+
 
 #include "main.h"
 #include "ft_configuration.h"
@@ -37,12 +40,13 @@ void ledMod()
     RGB_color(255, 122, 0);  // ORANGE
   else
     RGB_color(0, 255, 0);    //  GREEN 
-  return();
 }
 
 void ft_checkSizeSDcard() //compte le nombre de fichier 
 {
   int i;
+  i = 0;
+  File root;
   root = SD.open("/");
  
   while(true)
@@ -51,7 +55,7 @@ void ft_checkSizeSDcard() //compte le nombre de fichier
     if(!entry)
     {
       SIZE_SD_CARD = SIZE_SD_CARD - (SIZE_OF_CLUSTER_IN_KB * i);
-      return();
+      return;
     }
     i++;
   }
@@ -80,7 +84,7 @@ void eventRedPush()
             ledMod();
             endSD();
             Serial.println(F("[END] mod Standard, [BEGIN] mod Maintenance."));
-            goto begin;
+            //goto begin;
           }
           else 
           {
@@ -88,7 +92,7 @@ void eventRedPush()
             ledMod();
             initSD()
             Serial.println(F("[END] mod Maintenance, [BEGIN] mod Standard."));
-            goto begin;
+            //goto begin;
           }
         }
         else 
@@ -151,7 +155,7 @@ void endSD()
 {
   fichier.close();                
   fichier2.close();
-  SD.end(CHIPSELECTPIN);
+  //SD.end(CHIPSELECTPIN); //useless: ça existe pas
   Serial.println(F("You can retire SD card."));
 }
 
@@ -190,7 +194,7 @@ String ft_processValue(short value, short indCap)
      case 0:
      return("moyenne");
      case 1 || 2 || 3:
-     return(value);
+     return(String(value)); 
     // case 2:
    //  return(value);
     // case 3:
@@ -386,7 +390,7 @@ void setup()
 
 void loop()
 {
-  begin: 
+  //begin: 
 
   ft_CheckSDcardFull(); // bloque si SD Pleine (sauf si mode maintenance)
 

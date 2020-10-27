@@ -6,12 +6,6 @@
 #ifndef MAIN_H
 #define MAIN_H
 
-#include <SoftwareSerial.h> //UART GPS 
-#include <Wire.h> //communication led 
-#include "DS1307.h" // clock RTC //bizarre 
-#include <SPI.h> //pour communication SPI ( carte SD) 
-#include <SD.h> //pour la carte SD 
-#include <avr/pgmspace.h> //PROGMEM library
 
 //inclusion du define de la version + numérot de lot via makefile (avant compil)
 //exmple aperçu :
@@ -35,19 +29,24 @@
 #define PRESSURE_PIN PIN
 
 //info SD card
-#define SIZE_OF_SD_IN_KB 256000
+#define SIZE_OF_SD 256
 #define SIZE_OF_CLUSTER_IN_KB 4
+
+#define NB_CAPTORS 4
+
+SoftwareSerial SoftSerial(2, 3); // Serial already used for serial communication GPS connected on D2 port on Grove Shield
+DS1307 clock;//define a object of DS1307 class RTC Clock on I2C port on Grove Shield
 
 typedef struct
 {
-  PROGMEM String name;      //ptetre enlever progmem si on peux pas modif Progmem (a test)
-  PROGMEM short working;
-  PROGMEM String lowName;
-  PROGMEM short lowValue;
-  PROGMEM String highName;
-  PROGMEM short highValue;
-  PROGMEM short maxDom;
-  PROGMEM short minDom;
+  String name;      //ptetre enlever progmem si on peux pas modif Progmem (a test)
+  short working;
+  String lowName;
+  short lowValue;
+  String highName;
+  short highValue;
+  short maxDom;
+  short minDom;
 
   short value;
   short compteurTimeout;
@@ -55,6 +54,15 @@ typedef struct
 } Parametre;
 
 Parametre capteurs[NB_CAPTORS];  
+  if(NB_CAPTORS >= 1) capteurs[0];
+  if(NB_CAPTORS >= 2) capteurs[1];
+  if(NB_CAPTORS >= 3) capteurs[2];
+  if(NB_CAPTORS >= 4) capteurs[3];
+  //module complémentaire à incorporer au projet
+  if(NB_CAPTORS >= 5) capteurs[4];
+  if(NB_CAPTORS >= 6) capteurs[5];
+  if(NB_CAPTORS >= 7) capteurs[6];
+  if(NB_CAPTORS >= 8) capteurs[7];
 
 volatile int firstLoop = 0; //sert pour le mod config du début
 
@@ -67,10 +75,10 @@ volatile boolean greenPush = false;
 volatile short greenTimer = 0;
 volatile short redTimer = 0;
 
-const PROGMEM int SIZE_SD_CARD = SIZE_OF_SD_IN_KB;
-const PROGMEM short FILE_MAX_SIZE; //ptetre pas volatile du coup // oui faut mettre const sinon plant
-const PROGMEM short LOG_INTERVALL; 
-const PROGMEM short TIMEOUT;    // si short impossible penser a casté en short pour la suite 
+int SIZE_SD_CARD = SIZE_OF_SD * 1000;
+short FILE_MAX_SIZE; //ptetre pas volatile du coup // oui faut mettre const sinon plant
+short LOG_INTERVALL; 
+short TIMEOUT;    // si short impossible penser a casté en short pour la suite 
 
 volatile int compteurEco = 0;  //sert pour faire le modulo 2 (mesure) voir shéma
 
@@ -78,6 +86,7 @@ String nameFile2;   //def en global pour pouvoir les fermer en cas d'interruptio
 String nameFile;
 File fichier;
 File fichier2;
+
 
 // il faut faire précéder la déclaration de la fonction du mot-clef extern, qui signifie que cette fonction est définie dans un autre fichier.
 extern void RGB_color(short red_light_value, short green_light_value, short blue_light_value);
