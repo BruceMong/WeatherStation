@@ -550,7 +550,8 @@ void ft_beforeModifCapt(Parametre variable, short idVar, char *str)
   
   if(ft_checkArguValid(str) == false)
   {
-    Serial.print(F("[ERROR] Argument de " + nameVa));
+    Serial.print(F("[ERROR] Argument de "));
+    Serial.print(nameVa);
     Serial.println(F(" non valide, veuillez entrer une valeur numérique (0-9)"));
   }
   else
@@ -576,13 +577,25 @@ void ft_modifCapteurs(String name, short *valuePara, short valueInsere, short ma
   {
     lastValue = *valuePara;
     *valuePara = valueInsere;
-    Serial.print(F("[DONE] Changement de " + name + "="));
-    Serial.println(F(lastValue + "a" + name + "=" + *valuePara + "."));
+    Serial.print(F("[DONE] Changement de "));
+    Serial.print(name);
+    Serial.print(F("="));
+    Serial.print(lastValue);
+    Serial.print(F( "a"));
+    Serial.print(name);
+    Serial.print(F("="));
+    Serial.println(valuePara);
   }       
   else
   {
-    Serial.println(F("[ERROR] Valeur entree:"+ valueInsere +" est hors du domaine de definition {"));
-    Serial.println(F(min + "," + max + "} de " + name));  
+    Serial.println(F("[ERROR] Valeur entree:"));
+    Serial.print(valueInsere);
+    Serial.print(F("est hors du domaine de definition {"));
+    Serial.print(min);
+    Serial.print(F( ","));
+    Serial.print(max);
+    Serial.println(F("} de "));
+    Serial.println(name);  
   }
   return();
 }
@@ -682,7 +695,8 @@ void ft_changedate(char *str)  // En vrai je peux compacte les deux en une
   {
     clock.fillByYMD(anne, mois, jour);
     clock.setTime();//write time to the RTC chip
-    Serial.println(F("[DONE] Date changé avec succès :" + getTime()));
+    Serial.print(F("[DONE] Date changé avec succès :"));
+    Serial.println(getTime());    
   }
   else
     Serial.println(F("[ERROR] Erreur du domaine de definition, valeur attendu: MOIS{1-12},JOUR{1-31},ANNEE{2000-2099}"));
@@ -728,7 +742,8 @@ void ft_day(char *str)
     if(strcmp( *DAY[i], str) == 0)
     {
       clock.fillDayOfWeek(*DAY[i]);
-      Serial.println(F("[DONE] Jour changé avec succès :" + getTime()));
+      Serial.print(F("[DONE] Jour changé avec succès :"));
+      Serial.println(getTime());    
       return;
     }
   }
@@ -763,21 +778,24 @@ void ft_version()
 
 void ft_enterClock(short *dateInsert)
 {
-  Serial.println(F("[INFO] Date/Heure actuelle :" + getTime()));
+  Serial.print(F("[INFO] Date/Heure actuelle :"));
+  Serial.println(getTime());
   Serial.println(F("[WAITING] Veuillez configurer l’heure du jour au format HEURE{0-23}:MINUTE{0-59}:SECONDE{0-59}"));
   *dateInsert = 1;
 }
 
 void ft_enterDay(short *dateInsert)
 {
-  Serial.println(F("[INFO] Date/Heure actuelle :" + getTime()));
+  Serial.print(F("[INFO] Date/Heure actuelle :"));
+  Serial.println(getTime());
   Serial.println(F("[WAITING] Veuillez configurer du jour de la semaine{MON,TUE,WED,THU,FRI,SAT,SUN}"));
   *dateInsert = 3;
 }
 
 void ft_enterDate(short *dateInsert)
 {
-  Serial.println(F("[INFO] Date/Heure actuelle :" + getTime()));
+  Serial.print(F("[INFO] Date/Heure actuelle :"));
+  Serial.println(getTime());
   Serial.println(F("[WAITING] Veuillez configurer la date du jour au format MOIS{1-12},JOUR{1-31},ANNEE{2000-2099}"));
   *dateInsert = 2;
 }
@@ -811,7 +829,10 @@ void ft_log_intervall(char *str)
 
   temp = LOG_INTERVALL;
   if (( ft_imput_LFT( "LOG_INTERVALL", &LOG_INTERVALL, ft_findNum(str), 0, 0) )== true)
-    Serial.println(F("[DONE] Changement de LOG_INTERVALL = " + temp + " en LOG_INTERVALL = " + newValue));
+    Serial.print(F("[DONE] Changement de LOG_INTERVALL = "));
+    Serial.print(temp); 
+    Serial.print(F(" en LOG_INTERVALL = "));
+    Serial.println(newValue);
 
   return;
 }
@@ -823,7 +844,11 @@ void ft_timeout(char *str)
 
   temp = TIMEOUT;
   if (ft_imput_LFT( "TIMEOUT", &TIMEOUT, ft_findNum(str), 0, 0) == true)
-    Serial.println(F("[DONE] Changement de TIMEOUT = " + temp + " en TIMEOUT = " + newValue));
+    Serial.print(F("[DONE] Changement de TIMEOUT = "));
+    Serial.print(temp); 
+    Serial.print(F(" en TIMEOUT = "));
+    Serial.println(newValue);
+    
 
   return;
 }
@@ -834,7 +859,11 @@ void ft_filesize(char *str, boolean imputArchiFile)
   if(ft_imput_LFT( "FILE_MAX_SIZE", &FILE_MAX_SIZE, ft_findNum(str), 0, 0) == true)
   {
     if(FILE_MAX_SIZE <= 4096)
-      Serial.println(F("[DONE] Changement de FILE_MAX_SIZE = " + temp + " en FILE_MAX_SIZE = " + newValue));
+      Serial.print(F("[DONE] Changement de FILE_MAX_SIZE = "));
+       Serial.print(temp); 
+       Serial.print(F(" en FILE_MAX_SIZE = "));
+       Serial.println(newValue);
+       
     if(FILE_MAX_SIZE == 4096 && imputArchiFile == false)
     {
       ft_archivage();
@@ -858,14 +887,17 @@ boolean ft_imput_LFT(char *str, short *var, String nameVa)
 
   if(ft_checkArguValid(str) == false)
   {
-    Serial.print(F("[ERROR] Argument de " + nameVa));
+    Serial.print(F("[ERROR] Argument de "));
+    Serial.print(nameVa);
     Serial.println(F("non valide, veuillez entrer une valeur numérique (0-9)"));
     return(false);
   }
 
   newValue = ft_findNum(str)
   if (newValue < 0)
-    Serial.println(F("[ERROR] Valeur:" + newValue + " incorrecte veuillez entrer une valeur positive ou nul"));
+    Serial.print(F("[ERROR] Valeur:")); 
+    Serial.print(newValue);
+    Serial.println(F(" incorrecte veuillez entrer une valeur positive ou nul"));
   else
   {
     *var = temp;
