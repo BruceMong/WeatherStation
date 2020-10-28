@@ -200,6 +200,7 @@ String ft_processValue(short value, short indCap)
      case 1 || 2 || 3:
      return(String(value)); 
   }
+  return("ERROR");
 }
 
 
@@ -314,6 +315,7 @@ String ft_acqui_Capteur(short i)
   }
   else
     dataString += "OFF";
+  return("ERROR");
 }
 
 
@@ -920,26 +922,26 @@ void modifPara(char *str, short *dateInsert, boolean imputArchiFile)
   if(*dateInsert > 0) 
   {
     ft_modifCapteursyHoraire(str, *dateInsert);
-    return();
+    return;
   }
   //*************************  RESET, VERSION + HORAIRE (1part)
   switch(str)
   {
   case "RESET":
     ft_reset();
-      return();
+      return;
   case "VERSION":
     ft_version();
-      return();
+      return;
   case "CLOCK":
     ft_enterClock(*dateInsert);
-    return();
+    return;
   case "DATE":
     ft_enterDate(*dateInsert);
-    return();
+    return;
   case "DAY":
     ft_enterDay(*dateInsert);
-    return();
+    return;
   }
                                              //if (str == "RESET") // je suis pas sur de la syntaxe pcq c'est un *char voir si il faut pas le cast en String ou quoi
 
@@ -963,7 +965,7 @@ void modifPara(char *str, short *dateInsert, boolean imputArchiFile)
     ft_beforeModifCapt(pVar, idVar, str);
   else
     Serial.println(F("Commande introuvable"));
-  return();
+  return;
 }
 
 
@@ -1024,7 +1026,7 @@ void configuration()
 
 
 
-int getClockInSec(); //ou short 
+int getClockInSec() //ou short 
 {
   return((clock.hour * 3600) + (clock.minute * 60) + clock.second ) ;
 }
