@@ -199,10 +199,6 @@ String ft_processValue(short value, short indCap)
      return("moyenne");
      case 1 || 2 || 3:
      return(String(value)); 
-    // case 2:
-   //  return(value);
-    // case 3:
-    // return(value);
   }
 }
 
