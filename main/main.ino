@@ -410,7 +410,7 @@ void loop()
   dataString += ";";
 
   //gps
-  dataString += ft_acquiGPS();
+  dataString += ft_acqui_GPS();
   dataString += ";";
 
   //Capteurs
@@ -998,7 +998,7 @@ void configuration()
         timeActivite = getClockInSec(); //reset time acti
       }
   }
-  Serial.print(F("[END] Configuration mod by "))
+  Serial.print(F("[END] Configuration mod by "));
   if(modConfig == false)
     Serial.println(F("BOUTON ROUGE 5 SEC"));
   else

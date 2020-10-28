@@ -49,6 +49,7 @@ typedef struct
 
   short value;
   short compteurTimeout;
+  short pinCap;
 
 } Parametre;
 
@@ -65,7 +66,7 @@ volatile boolean greenPush = false;
 volatile short greenTimer = 0;
 volatile short redTimer = 0;
 
-long SIZE_SD_CARD_IN_KB = SIZE_OF_SD * 1000;
+long SIZE_SD_CARD_IN_KB = SIZE_OF_SD * 1000L;
 short FILE_MAX_SIZE; //ptetre pas volatile du coup // oui faut mettre const sinon plant
 short LOG_INTERVALL; 
 short TIMEOUT;    // si short impossible penser a casté en short pour la suite 
