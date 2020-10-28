@@ -980,7 +980,7 @@ void configuration()
   int timeActivite;
   short dateInsert;
   const boolean imputArchiFile;
-  String msg;
+  char* msg;
 
   firstLoop = 1;
   timeActivite = getClockInSec(); 
@@ -998,7 +998,7 @@ void configuration()
 
     if(Serial.available()) 
     {
-        msg = readStringUntil('\n');
+        msg = Serial.readStringUntil('\n');
         modifPara(msg, &dateInsert, imputArchiFile);
         timeActivite = getClockInSec(); //reset time acti
       }
