@@ -55,7 +55,7 @@ void ft_checkSizeSDcard() //compte le nombre de fichier
  
   while(true)
   {
-    File entry = dir.openNextFile()
+    File entry = dir.openNextFile();
     if(!entry)
     {
       SIZE_SD_CARD_IN_KB = SIZE_SD_CARD_IN_KB - ( long(SIZE_OF_CLUSTER_IN_KB * i));
@@ -94,7 +94,7 @@ void eventRedPush()
           {
             modMaintenance = false;
             ledMod();
-            initSD()
+            initSD();
             Serial.println(F("[END] mod Maintenance, [BEGIN] mod Standard."));
             //goto begin;
           }
@@ -226,7 +226,7 @@ String getNameFileNext(char *nameFile)
 
 void ft_CheckSDcardFull()
 {
-  while(modConfig == false && SIZE_SD_CARD <= 0)  
+  while(modConfig == false && SIZE_SD_CARD_IN_KB <= 0)  
     ft_error_led(255, 0, 0, 255, 255, 255, 1, 1);
   ledMod();
 }
