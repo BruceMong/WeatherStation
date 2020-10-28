@@ -31,8 +31,7 @@
 #define PRESSURE_PIN 2
 
 #define CLOCK_PIN_A 1
-#define CLOCK_PIN_A 2
-
+#define CLOCK_PIN_B 2
 
 //info SD card
 #define SIZE_OF_SD 256
