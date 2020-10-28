@@ -980,6 +980,7 @@ void configuration()
   int timeActivite;
   short dateInsert;
   const boolean imputArchiFile;
+  String msg;
 
   firstLoop = 1;
   timeActivite = getClockInSec(); 
@@ -997,9 +998,8 @@ void configuration()
 
     if(Serial.available()) 
     {
-        char msg[] = Serial.read();
+        msg = readStringUntil('\n');
         modifPara(msg, &dateInsert, imputArchiFile);
-
         timeActivite = getClockInSec(); //reset time acti
       }
   }
@@ -1012,7 +1012,7 @@ void configuration()
     modConfig = false;
   }
   RGB_color(0, 255, 0); // GREEN
-  //faudrait peut etre free toute les merdes
+  //faudrait peut etre free toute les merdes //il y a rien a free :)
 }
 
 
