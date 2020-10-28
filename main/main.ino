@@ -895,9 +895,11 @@ boolean ft_imput_LFT(char *str, short *var, String nameVa)
 
   newValue = ft_findNum(str);
   if (newValue < 0)
+  {
     Serial.print(F("[ERROR] Valeur:")); 
     Serial.print(newValue);
     Serial.println(F(" incorrecte veuillez entrer une valeur positive ou nul"));
+  }
   else
   {
     *var = temp;
@@ -952,13 +954,13 @@ void modifPara(char *str, short *dateInsert, boolean imputArchiFile)
   {
   case "TIMEOUT":
     ft_timeout(str);
-    return();
+    return;
   case "LOG_INTERVALL":
     ft_log_intervall(str);
-    return();
+    return;
   case "FILE_MAX_SIZE":
     ft_filesize(str, imputArchiFile);
-    return();
+    return;
   }
   idVar = ft_imput_capteurs(strC, *pVar); 
   if(pVar != NULL)
