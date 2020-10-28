@@ -18,7 +18,7 @@
 #include "ft_time.h"
 
 SoftwareSerial SoftSerial(2, 3); // Serial already used for serial communication GPS connected on D2 port on Grove Shield
-DS1307 clock;//define a object of DS1307 class RTC Clock on I2C port on Grove Shield
+DS1307 clock(CLOCK_PIN_A, CLOCK_PIN_A); //define a object of DS1307 class RTC Clock on I2C port on Grove Shield
 
 
 void RGB_color(short red_light_value, short green_light_value, short blue_light_value)
