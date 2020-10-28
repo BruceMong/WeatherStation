@@ -323,7 +323,7 @@ String ft_acqui_Capteur(short i)
 
 void ft_SaveDataSDcard(String dataString)
 {
-  nameFile = getNameFile();
+    nameFile = getNameFile();
     File fichier = SD.open(nameFile);       //pas sur qu'on puisse ouvrir deux fois un fichier faudra peut etre le close puis le reopen 
     while(1)
     {
@@ -563,7 +563,7 @@ void ft_beforeModifCapt(Parametre variable, short idVar, char *str)
     if(idVar == 3)
       ft_modifCapteurs( &variable.highName, &variable.highValue, ft_findNum(str), &variable.maxDom, &variable.minDom);
   }
-  return();
+  return;
 }
 
     
@@ -772,8 +772,10 @@ void ft_modifCapteursyHoraire(char *str, short *codeDate)
 
 void ft_version()
 {
-  Serial.println(F("Version du programme :" + VERSION));
-  Serial.println(F("Numerot de lot :" + NUMLOT));
+  Serial.print(F("Version du programme :")); 
+  Serial.print(VERSION);
+  Serial.print(F("Numerot de lot :"));
+  Serial.println(NUMLOT);
 }
 
 void ft_enterClock(short *dateInsert)
@@ -948,7 +950,7 @@ void modifPara(char *str, short *dateInsert, boolean imputArchiFile)
 //*******************************    struct CAPTEURS + TIMEOUT et LOG_INTERVALL   (DATA with arg )
   strC = newStrWithoutNum(str);
 
-  switch(strc)
+  switch(strC)
   {
   case "TIMEOUT":
     ft_timeout(str);
@@ -1028,7 +1030,7 @@ void configuration()
 
 int getClockInSec(); //ou short 
 {
-  return((clock.hour * 3600) + (clock.minute * 60) + clock.second) ;
+  return((clock.hour * 3600) + (clock.minute * 60) + clock.second ) ;
 }
 
 String getNameFile()
