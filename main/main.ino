@@ -891,7 +891,7 @@ boolean ft_imput_LFT(char *str, short *var, String nameVa)
     return(false);
   }
 
-  newValue = ft_findNum(str)
+  newValue = ft_findNum(str);
   if (newValue < 0)
     Serial.print(F("[ERROR] Valeur:")); 
     Serial.print(newValue);
