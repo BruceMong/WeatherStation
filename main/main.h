@@ -11,8 +11,9 @@
 //inclusion du define de la version + numérot de lot via makefile (avant compil)
 //exmple aperçu :
 //#define DEBUG
-//#define VERSION 1.1
-//#define NUM_LOT 12
+#define VERSION 1.1
+#define NUM_LOT 12
+
 
 //PIN à définir plus tard 
 #define GREENPUSHPIN 5

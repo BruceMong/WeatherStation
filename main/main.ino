@@ -802,6 +802,9 @@ void ft_enterDate(short *dateInsert)
 
 short ft_imput_capteurs(char *strC, Parametre *pVar)
 {
+  int i;
+  i = 0;
+  
   while(i < 4 && pVar == NULL)  //permet d'arreter le while dès qu'il a trouvé correspondance
   {
     switch (strC)
