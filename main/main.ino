@@ -388,7 +388,7 @@ void setup()
   while(digitalRead(REDPUSHPIN) == 1 ); //bloquer le programme tant que utilisateur a pas lacher le bouton rouge 
 
   if(modConfig == true)
-    Configuration();    // Wesh on peux la mettre dans le setup avec un condi sur le bouton ? //non c'est relou // ah si enfaite :)
+    configuration();    // Wesh on peux la mettre dans le setup avec un condi sur le bouton ? //non c'est relou // ah si enfaite :)
   firstLoop = 1;
 }
 
@@ -491,7 +491,7 @@ char* newStrWithoutNum(char *str)
     newStr[i] = str[i]; 
     i++;
   }
-  newStr[i] = '\0'
+  newStr[i] = '\0';
   return(newStr);
 }
 
@@ -855,7 +855,7 @@ void ft_timeout(char *str)
 
 void ft_filesize(char *str, boolean imputArchiFile) 
 {
-  short temp = FILE_MAX_SIZE
+  short temp = FILE_MAX_SIZE ;
   if(ft_imput_LFT( "FILE_MAX_SIZE", &FILE_MAX_SIZE, ft_findNum(str), 0, 0) == true)
   {
     if(FILE_MAX_SIZE <= 4096)
@@ -1086,5 +1086,5 @@ String getTime()
         break;
     }
     time+=String(" ");
-   return time;
+   return(time);
 }
