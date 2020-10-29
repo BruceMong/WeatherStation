@@ -981,7 +981,7 @@ void configuration()
   short dateInsert;
   const boolean imputArchiFile;
   char[SIZE_BUFFER] bufferSerial;
-  char* msg;
+  //char* msg;  // useless direct en para
   int i;
   boolean dataR;
 
@@ -1046,7 +1046,7 @@ char* ft_newStrFromBuff(char* string)
   char* newStr;
   sizeStr = ft_strlength(string);
 
-  newStr = malloc(sizeof(char) * sizeStr  ); //ptetre un + 1
+  newStr = (char*)malloc(sizeof(char) * sizeStr  ); //ptetre un + 1
   ft_cpStr(string, newStr);
   return(newStr);
 }
