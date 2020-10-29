@@ -919,13 +919,13 @@ void modifPara(char* str) // peux peut etre etre simplifier avec des enum ? ou g
   short i;
   short idVar;
 
-  varId = 0;
+  idVar = 0;
   pVar = NULL;
   i = 0;
 
  
-  fptrVoid ftab[5] = { &ft_reset, &ft_version, &ft_enterClock, &ft_enterDate, &ft_enterDay};
-  fptrChar ftab[3] = { &ft_timeout, &ft_log_intervall, &ft_filesize}
+  fptrVoid ftabV[5] = { &ft_reset, &ft_version, &ft_enterClock, &ft_enterDate, &ft_enterDay};
+  fptrChar ftabC[3] = { &ft_timeout, &ft_log_intervall, &ft_filesize}
 
 /*
   ftab[0] = &ft_reset;
@@ -948,7 +948,7 @@ void modifPara(char* str) // peux peut etre etre simplifier avec des enum ? ou g
       {
         if( strcmp(str, tabOpt[i]) == true)
         {
-          (*( ftabVoid[i]))(); 
+          (*( ftabV[i]))(); 
           return;
         } 
       }
@@ -956,7 +956,7 @@ void modifPara(char* str) // peux peut etre etre simplifier avec des enum ? ou g
       {
         if( strcmp(strC, tabOpt[i]) == true)
         {
-          (*( ftabChar[i - 5]))(str); 
+          (*( ftabC[i - 5]))(str); 
           return;
         }
       }
