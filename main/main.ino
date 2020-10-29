@@ -1002,7 +1002,7 @@ void configuration()
     if(dateInsert == 0 && dataR == true) //dataR pour pas spam et dateInsert en cas d'insertion de date
     {
       Serial.println(F("[WAITING] Veuillez entrer une commande:"));
-      dateR = false;
+      dataR = false;
     } 
     
     i = 0;
@@ -1023,7 +1023,7 @@ void configuration()
         
       clearBuff(bufferSerial); // useless en vrai mais par propreté :)
       timeActivite = getClockInSec(); //reset time acti
-      datR = true;
+      dataR = true;
     } 
   }
   Serial.print(F("[END] Configuration mod by "));
@@ -1046,7 +1046,7 @@ char* ft_newStrFromBuff(char* string)
   char* newStr;
   sizeStr = ft_strlength(string);
 
-  newStr = malloc(sizeof(char) * sizeStr  ) //ptetre un + 1
+  newStr = malloc(sizeof(char) * sizeStr  ); //ptetre un + 1
   ft_cpStr(string, newStr);
   return(newStr);
 }
