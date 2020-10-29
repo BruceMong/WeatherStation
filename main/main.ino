@@ -1021,7 +1021,7 @@ void configuration()
       else
         modifPara(ft_newStrFromBuff(bufferSerial), &dateInsert, imputArchiFile);
         
-      clearBuff(BufferSerial); // useless en vrai mais par propreté :)
+      clearBuff(bufferSerial); // useless en vrai mais par propreté :)
       timeActivite = getClockInSec(); //reset time acti
       datR = true;
     } 

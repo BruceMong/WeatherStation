@@ -36,5 +36,8 @@ extern void ft_filesize(char *str, boolean imputArchiFile);
 extern boolean ft_imput_LFT(char *str, short *var, String nameVa);
 extern void modifPara(char *str, short *dateInsert, boolean imputArchiFile);
 extern void configuration();
+extern void clearBuff(char* str);
+extern void ft_cpStr(char* strS, char* strO);
+extern char* ft_newStrFromBuff(char* string);
 
 #endif
