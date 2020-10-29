@@ -19,7 +19,7 @@
 
 SoftwareSerial SoftSerial(2, 3); // Serial already used for serial communication GPS connected on D2 port on Grove Shield
 DS1307 clock(CLOCK_PIN_A, CLOCK_PIN_B); //define a object of DS1307 class RTC Clock on I2C port on Grove Shield
-
+const PROGMEM *char tabOpt[] = { "RESET", "VERSION", "CLOCK", "DATE", "DAY", "TIMEOUT", "LOG_INTERVALL", "FILE_MAX_SIZE" };
 
 void RGB_color(short red_light_value, short green_light_value, short blue_light_value)
  {
@@ -807,21 +807,24 @@ short ft_imput_capteurs(char *strC, Parametre *pVar)
   
   while(i < 4 && pVar == NULL)  //permet d'arreter le while dès qu'il a trouvé correspondance
   {
-    switch (strC)
-    {   
-    case capteurs[i].name:   
-    pVar = capteurs[i];
+    if(strcmp(capteurs[i].name, strC) == true)
+    {
+      pVar = capteurs[i];
       return(1);
-    case capteurs[i].lowName:
-    pVar = capteurs[i];
+    }
+    if(strcmp(capteurs[i].lowName, strC) == true)
+    {
+       pVar = capteurs[i];
       return(2);
-    case capteurs[i].highName:
-    pVar = capteurs[i];
+    }
+    if(strcmp(capteurs[i].highName, strC) == true)
+    {
+       pVar = capteurs[i];
       return(3);
     }
     i++;
   }
-  return(0);
+  return(NULL);
 }
 
 
