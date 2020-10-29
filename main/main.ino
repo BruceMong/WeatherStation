@@ -980,7 +980,7 @@ void configuration()
   int timeActivite;
   short dateInsert;
   const boolean imputArchiFile;
-  char[SIZE_BUFFER] bufferSerial;
+  char bufferSerial[SIZE_BUFFER];
   //char* msg;  // useless direct en para
   int i;
   boolean dataR;
