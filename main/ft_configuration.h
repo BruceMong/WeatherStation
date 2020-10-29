@@ -6,6 +6,8 @@
 #ifndef FT_CONFIGURATION_H
 #define FT_CONFIGURATION_H
 
+#define SIZE_BUFFER 20
+
 extern short ft_findNum(char *msg);
 extern char* newStrWithoutNum(char *str);
 extern void ft_reset();

@@ -912,7 +912,7 @@ boolean ft_imput_LFT(char *str, short *var, String nameVa)
 }
 
 
-void modifPara(char *str, short *dateInsert, boolean imputArchiFile)
+void modifPara(char* str, short *dateInsert, boolean imputArchiFile) // peux peut etre etre simplifier avec des enum ? ou genre un tableau de de toutes les soluce // ouais nan galere
 {
   Parametre *pVar;
   char *strC;
@@ -951,7 +951,7 @@ void modifPara(char *str, short *dateInsert, boolean imputArchiFile)
                                              //if (str == "RESET") // je suis pas sur de la syntaxe pcq c'est un *char voir si il faut pas le cast en String ou quoi
 
 //*******************************    struct CAPTEURS + TIMEOUT et LOG_INTERVALL   (DATA with arg )
-  strC = newStrWithoutNum(str);
+  strC = newStrWithoutNum(str); // pour check les 
 
   switch(strC)
   {
@@ -980,12 +980,16 @@ void configuration()
   int timeActivite;
   short dateInsert;
   const boolean imputArchiFile;
+  char[SIZE_BUFFER] bufferSerial;
   char* msg;
+  int i;
+  boolean dataR;
 
+  dataR = false;
   firstLoop = 1;
   timeActivite = getClockInSec(); 
   dateInsert = 0;
-  imputArchiFile = false;
+  imputArchiFile = true;
 
   RGB_color(255, 255, 0); // YELLOW
 
@@ -993,15 +997,34 @@ void configuration()
   Serial.println(F("[BEGIN] Configuration mod :"));
   while( (getClockInSec() > (timeActivite + (30 * 60 ))) && modConfig == true) 
   {
-    if(dateInsert == 0)
-      Serial.println(F("[WAITING] Veuillez entrer une commande:"));
-
-    if(Serial.available()) 
+  
+    
+    if(dateInsert == 0 && dataR == true) //dataR pour pas spam et dateInsert en cas d'insertion de date
     {
-        msg = Serial.readStringUntil('\n');
-        modifPara(msg, &dateInsert, imputArchiFile);
-        timeActivite = getClockInSec(); //reset time acti
+      Serial.println(F("[WAITING] Veuillez entrer une commande:"));
+      dateR = false;
+    } 
+    
+    i = 0;
+    while (Serial.available() > 0)
+    {
+      if(i < SIZE_BUFFER)
+      {
+        bufferSerial[i] = Serial.read();
+        i++;
       }
+    }
+    if( i != 0) //info recu
+    {
+      if( i > SIZE_BUFFER)
+        Serial.print(F("[ERREUR] Trop de caractere recu"));
+      else
+        modifPara(ft_newStrFromBuff(bufferSerial), &dateInsert, imputArchiFile);
+        
+      clearBuff(BufferSerial); // useless en vrai mais par propreté :)
+      timeActivite = getClockInSec(); //reset time acti
+      datR = true;
+    } 
   }
   Serial.print(F("[END] Configuration mod by "));
   if(modConfig == false)
@@ -1017,7 +1040,37 @@ void configuration()
 
 
 
+char* ft_newStrFromBuff(char* string)
+{
+  short sizeStr;
+  char* newStr;
+  sizeStr = ft_strlength(string);
 
+  newStr = malloc(sizeof(char) * sizeStr  ) //ptetre un + 1
+  ft_cpStr(string, newStr);
+  return(newStr);
+}
+
+void ft_cpStr(char* strS, char* strO)
+{
+  short i;
+  short sizeS;
+
+  i = 0;
+  sizeS = ft_strlength(strS);
+  while(i < sizeS)
+    strO[i] = strS[i];
+}
+
+
+void clearBuff(char* str)
+{
+  short i;
+  while(i < SIZE_BUFFER)
+  {
+    str[i] = '\0';
+  }
+}
 
 
 
