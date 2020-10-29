@@ -537,7 +537,7 @@ boolean ft_checkArguValid(char* str)
   return(true);
 }
 
-void ft_beforeModifCapt(Parametre variable, short idVar, char *str)
+void ft_beforeModifCapt(Parametre variable, char *str)
 {
   String *name;
   short *ValuePara
@@ -554,11 +554,11 @@ void ft_beforeModifCapt(Parametre variable, short idVar, char *str)
   }
   else
   {
-    if(idVar == 1)
+    if(dateInsert == 1)
       ft_modifCapteurs( &variable.name, &variable.working, ft_findNum(str), 0, 1);
-    if(idVar == 2)
+    else if(dateInsert == 2)
       ft_modifCapteurs( &variable.lowName, &variable.lowValue, ft_findNum(str), &variable.maxDom, &variable.minDom);
-    if(idVar == 3)
+    else if(dateInsert == 3)
       ft_modifCapteurs( &variable.highName, &variable.highValue, ft_findNum(str), &variable.maxDom, &variable.minDom);
   }
   return;
@@ -732,14 +732,14 @@ void ft_date(char *str)
 void ft_day(char *str)
 { 
   int i;
-  char DAY[7][3] = "MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN";
+  char *DAY[7] = "MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN";
 
   i = 0;
   while(i < 7)
   {
-    if(strcmp( *DAY[i], str) == 0)
+    if(strcmp( DAY[i], str) == 0)
     {
-      clock.fillDayOfWeek(*DAY[i]);
+      clock.fillDayOfWeek(DAY[i]);
       Serial.print(F("[DONE] Jour changé avec succès :"));
       Serial.println(getTime());    
       return;
@@ -749,9 +749,9 @@ void ft_day(char *str)
   return;
 }
 
-void ft_modifCapteursyHoraire(char *str, short *codeDate)
+void ft_modifCapteursHoraire(char *str)
 { 
-  switch(codeDate)
+  switch(dateInsert)
   {
     case 1 :
     ft_clock(str);
@@ -763,7 +763,7 @@ void ft_modifCapteursyHoraire(char *str, short *codeDate)
     ft_day(str);
     break;
   }
-  *codeDate = 0;
+  dateInsert = 0;
 }
 
 
@@ -776,28 +776,28 @@ void ft_version()
   Serial.println(NUMLOT);
 }
 
-void ft_enterClock(short *dateInsert)
+void ft_enterClock()
 {
   Serial.print(F("[INFO] Date/Heure actuelle :"));
   Serial.println(getTime());
   Serial.println(F("[WAITING] Veuillez configurer l’heure du jour au format HEURE{0-23}:MINUTE{0-59}:SECONDE{0-59}"));
-  *dateInsert = 1;
+  dateInsert = 1;
 }
 
-void ft_enterDay(short *dateInsert)
+void ft_enterDay()
 {
   Serial.print(F("[INFO] Date/Heure actuelle :"));
   Serial.println(getTime());
   Serial.println(F("[WAITING] Veuillez configurer du jour de la semaine{MON,TUE,WED,THU,FRI,SAT,SUN}"));
-  *dateInsert = 3;
+  dateInsert = 3;
 }
 
-void ft_enterDate(short *dateInsert)
+void ft_enterDate()
 {
   Serial.print(F("[INFO] Date/Heure actuelle :"));
   Serial.println(getTime());
   Serial.println(F("[WAITING] Veuillez configurer la date du jour au format MOIS{1-12},JOUR{1-31},ANNEE{2000-2099}"));
-  *dateInsert = 2;
+  dateInsert = 2;
 }
 
 short ft_imput_capteurs(char *strC, Parametre *pVar)
@@ -856,7 +856,7 @@ void ft_timeout(char *str)
   return;
 }
 
-void ft_filesize(char *str, boolean imputArchiFile) 
+void ft_filesize(char *str) 
 {
   short temp = FILE_MAX_SIZE ;
   if(ft_imput_LFT( "FILE_MAX_SIZE", &FILE_MAX_SIZE, ft_findNum(str), 0, 0) == true)
@@ -912,7 +912,7 @@ boolean ft_imput_LFT(char *str, short *var, String nameVa)
 }
 
 
-void modifPara(char* str, short *dateInsert, boolean imputArchiFile) // peux peut etre etre simplifier avec des enum ? ou genre un tableau de de toutes les soluce // ouais nan galere
+void modifPara(char* str) // peux peut etre etre simplifier avec des enum ? ou genre un tableau de de toutes les soluce // ouais nan galere // bon okay je l'ai fait
 {
   Parametre *pVar;
   char *strC;
@@ -923,49 +923,47 @@ void modifPara(char* str, short *dateInsert, boolean imputArchiFile) // peux peu
   pVar = NULL;
   i = 0;
 
-  //*************************   Si HORAIRE (1part) true alors HORAIRE (2part)
-  if(*dateInsert > 0) 
-  {
-    ft_modifCapteursyHoraire(str, *dateInsert);
-    return;
-  }
-  //*************************  RESET, VERSION + HORAIRE (1part)
-  switch(str)
-  {
-  case "RESET":
-    ft_reset();
-      return;
-  case "VERSION":
-    ft_version();
-      return;
-  case "CLOCK":
-    ft_enterClock(*dateInsert);
-    return;
-  case "DATE":
-    ft_enterDate(*dateInsert);
-    return;
-  case "DAY":
-    ft_enterDay(*dateInsert);
-    return;
-  }
-                                             //if (str == "RESET") // je suis pas sur de la syntaxe pcq c'est un *char voir si il faut pas le cast en String ou quoi
+ 
+  fptrVoid ftab[5] = { &ft_reset, &ft_version, &ft_enterClock, &ft_enterDate, &ft_enterDay};
+  fptrChar ftab[3] = { &ft_timeout, &ft_log_intervall, &ft_filesize}
 
-//*******************************    struct CAPTEURS + TIMEOUT et LOG_INTERVALL   (DATA with arg )
-  strC = newStrWithoutNum(str); // pour check les 
-
-  switch(strC)
+/*
+  ftab[0] = &ft_reset;
+  ftab[1] = &ft_version;
+  ftab[2] = &ft_enterClock;
+  ftab[3] = &ft_enterDate;
+  ftab[4] = &ft_enterDay;
+*/
+  if(dateInsert > 0) 
   {
-  case "TIMEOUT":
-    ft_timeout(str);
-    return;
-  case "LOG_INTERVALL":
-    ft_log_intervall(str);
-    return;
-  case "FILE_MAX_SIZE":
-    ft_filesize(str, imputArchiFile);
+    ft_modifCapteursHoraire(str);
     return;
   }
-  idVar = ft_imput_capteurs(strC, *pVar); 
+
+  //switch str ne marche qu'en java :(
+  strC = newStrWithoutNum(str); 
+  while(i < 8)
+  {
+      if(i < 5)
+      {
+        if( strcmp(str, tabOpt[i]) == true)
+        {
+          (*( ftabVoid[i]))(); 
+          return;
+        } 
+      }
+      else
+      {
+        if( strcmp(strC, tabOpt[i]) == true)
+        {
+          (*( ftabChar[i - 5]))(str); 
+          return;
+        }
+      }
+      i++;
+  }
+  //struct capteurs
+    idVar = ft_imput_capteurs(strC, *pVar); 
   if(pVar != NULL)
     ft_beforeModifCapt(pVar, idVar, str);
   else
@@ -975,21 +973,19 @@ void modifPara(char* str, short *dateInsert, boolean imputArchiFile) // peux peu
 
 
 
+
+
+
 void configuration()
 {
   int timeActivite;
-  short dateInsert;
-  const boolean imputArchiFile;
   char bufferSerial[SIZE_BUFFER];
-  //char* msg;  // useless direct en para
   int i;
   boolean dataR;
 
   dataR = false;
   firstLoop = 1;
   timeActivite = getClockInSec(); 
-  dateInsert = 0;
-  imputArchiFile = true;
 
   RGB_color(255, 255, 0); // YELLOW
 
@@ -1019,7 +1015,7 @@ void configuration()
       if( i > SIZE_BUFFER)
         Serial.print(F("[ERREUR] Trop de caractere recu"));
       else
-        modifPara(ft_newStrFromBuff(bufferSerial), &dateInsert, imputArchiFile);
+        modifPara(ft_newStrFromBuff(bufferSerial));
         
       clearBuff(bufferSerial); // useless en vrai mais par propreté :)
       timeActivite = getClockInSec(); //reset time acti

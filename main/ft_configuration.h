@@ -8,6 +8,15 @@
 
 #define SIZE_BUFFER 20
 
+
+const PROGMEM *char tabOpt[] = { "RESET", "VERSION", "CLOCK", "DATE", "DAY", "TIMEOUT", "LOG_INTERVALL", "FILE_MAX_SIZE" };
+
+typedef void (*fptrVoid)();
+typedef void (*fptrChar)(char*);
+
+short dateInsert = 0;
+boolean imputArchiFile = false;
+
 extern short ft_findNum(char *msg);
 extern char* newStrWithoutNum(char *str);
 extern void ft_reset();
@@ -24,17 +33,17 @@ extern void ft_changedate(char *str);
 extern void ft_clock(char *str);
 extern void ft_date(char *str);
 extern void ft_day(char *str);
-extern void ft_modifCapteursyHoraire(char *str, short *codeDate);
+extern void ft_modifCapteursHoraire(char *str);
 extern void ft_version();
-extern void ft_enterClock(short *dateInsert);
-extern void ft_enterDay(short *dateInsert);
-extern void ft_enterDate(short *dateInsert);
+extern void ft_enterClock();
+extern void ft_enterDay();
+extern void ft_enterDate();
 extern short ft_imput_capteurs(char *strC, Parametre *pVar);
 extern void ft_log_intervall(char *str);
 extern void ft_timeout(char *str);
-extern void ft_filesize(char *str, boolean imputArchiFile);
+extern void ft_filesize(char *str);
 extern boolean ft_imput_LFT(char *str, short *var, String nameVa);
-extern void modifPara(char *str, short *dateInsert, boolean imputArchiFile);
+extern void modifPara(char *str);
 extern void configuration();
 extern void clearBuff(char* str);
 extern void ft_cpStr(char* strS, char* strO);
