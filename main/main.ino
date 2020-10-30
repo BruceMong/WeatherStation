@@ -538,9 +538,7 @@ void ft_beforeModifCapt(Parametre variable, short idVar, char* str)  //variable 
 { 
   if(ft_checkArguValid(str) == false)
   {
-    Serial.print(F("[ERROR] Argument de "));
-    Serial.print(nameVa);
-    Serial.println(F(" non valide, veuillez entrer une valeur numérique (0-9)"));
+    Serial.print(F("[ERROR] Argument de non valide, veuillez entrer une valeur numérique (0-9)"));
   }
   else
   {
@@ -558,8 +556,9 @@ void ft_beforeModifCapt(Parametre variable, short idVar, char* str)  //variable 
     
 //copy paste en haut 
 
-void ft_modifCapteurs(char* name, short *valuePara, short valueInsere, short max, short min)
+void ft_modifCapteurs(char *name, short *valuePara, short valueInsere, short max, short min)
 {
+  short lastValue;
 
   if(valueInsere >= min && valueInsere <= max)
   {
@@ -572,7 +571,7 @@ void ft_modifCapteurs(char* name, short *valuePara, short valueInsere, short max
     Serial.print(F( "a"));
     Serial.print(name);
     Serial.print(F("="));
-    Serial.println(valuePara);
+    Serial.println(*valuePara);
   }       
   else
   {
@@ -723,7 +722,7 @@ void ft_date(char *str)
 void ft_day(char *str)
 { 
   int i;
-  char *DAY[] = "MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN";
+  char *DAY[] = {"MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"};
 
   i = 0;
   while(i < 7)
