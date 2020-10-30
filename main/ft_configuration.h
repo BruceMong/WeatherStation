@@ -9,7 +9,7 @@
 #define SIZE_BUFFER 20
 
 
-const PROGMEM *char tabOpt[] = { "RESET", "VERSION", "CLOCK", "DATE", "DAY", "TIMEOUT", "LOG_INTERVALL", "FILE_MAX_SIZE" };
+const PROGMEM char *tabOpt[] = { "RESET", "VERSION", "CLOCK", "DATE", "DAY", "TIMEOUT", "LOG_INTERVALL", "FILE_MAX_SIZE" };
 
 typedef void (*fptrVoid)();
 typedef void (*fptrChar)(char*);
@@ -25,7 +25,7 @@ extern void ft_beforeModifCapt(Parametre variable, short idVar, char *str);
 extern void ft_modifCapteurs(String name, short *valuePara, short valueInsere, short max, short min);
 extern short ft_strlength(char *str);
 extern short ft_isCaraNum(char c);
-extern short ft_isColon(char c);
+extern short ft_isCaraColon(char c);
 extern short ft_checkStrDate(char* str, short size);
 extern short extractNum(char *str, int s);
 extern void ft_changeClock(char *str);

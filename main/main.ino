@@ -923,7 +923,7 @@ void modifPara(char* str) // peux peut etre etre simplifier avec des enum ? ou g
   char *strC;
   short i;
   short idVar;
-  *char tabOpt[] = { "RESET", "VERSION", "CLOCK", "DATE", "DAY", "TIMEOUT", "LOG_INTERVALL", "FILE_MAX_SIZE" };
+  c//har *tabOpt[] = { "RESET", "VERSION", "CLOCK", "DATE", "DAY", "TIMEOUT", "LOG_INTERVALL", "FILE_MAX_SIZE" };
   idVar = 0;
   pVar = NULL;
   i = 0;
