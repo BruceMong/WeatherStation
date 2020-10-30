@@ -20,7 +20,7 @@
 SoftwareSerial SoftSerial(2, 3); // Serial already used for serial communication GPS connected on D2 port on Grove Shield
 DS1307 clock(CLOCK_PIN_A, CLOCK_PIN_B); //define a object of DS1307 class RTC Clock on I2C port on Grove Shield
 
-*char tabOpt[] = { "RESET", "VERSION", "CLOCK", "DATE", "DAY", "TIMEOUT", "LOG_INTERVALL", "FILE_MAX_SIZE" };
+
 
 void RGB_color(short red_light_value, short green_light_value, short blue_light_value)
  {
@@ -616,7 +616,7 @@ short ft_isCaraNum(char c)
   return(1);
 }
 
-short ft_isColon(char c)
+short ft_isCaraColon(char c)
 {
   if(c == ':')
     return(0);
@@ -923,12 +923,12 @@ void modifPara(char* str) // peux peut etre etre simplifier avec des enum ? ou g
   char *strC;
   short i;
   short idVar;
-
+  *char tabOpt[] = { "RESET", "VERSION", "CLOCK", "DATE", "DAY", "TIMEOUT", "LOG_INTERVALL", "FILE_MAX_SIZE" };
   idVar = 0;
   pVar = NULL;
   i = 0;
 
- 
+  
   fptrVoid ftabV[5] = { &ft_reset, &ft_version, &ft_enterClock, &ft_enterDate, &ft_enterDay};
   fptrChar ftabC[3] = { &ft_timeout, &ft_log_intervall, &ft_filesize};
 
@@ -1075,12 +1075,7 @@ void clearBuff(char* str)
 
 
 
-
-
 //------------------------------------------------------------------------------
-
-
-
 
 
 
