@@ -585,7 +585,7 @@ void ft_modifCapteurs(char* name, short *valuePara, short valueInsere, short max
     Serial.println(F("} de "));
     Serial.println(name);  
   }
-  return();
+  return;
 }
 
 short ft_strlength(char *str)
@@ -642,7 +642,7 @@ short extractNum(char *str, int s)
   num = 0;
   while(str[s] != ':' || str[s] != '\0')
   {
-    num = num * 10 + (str[i] - 48);
+    num = num * 10 + (str[s] - 48);
     s++;
   }
   return(num);
@@ -823,7 +823,9 @@ void ft_log_intervall(char *str) //same ft_filesize sauf pas de limite spécifiq
 {
   short temp; 
   temp = LOG_INTERVALL;
-  if ( ft_imput_LFT( "LOG_INTERVALL", &LOG_INTERVALL) == true)
+  char nameV[] = "LOG_INTERVALL";
+
+  if ( ft_imput_LFT( nameV, &LOG_INTERVALL) == true)
   {
     Serial.print(F("[DONE] Changement de LOG_INTERVALL = "));
     Serial.print(temp); 
@@ -835,9 +837,11 @@ void ft_log_intervall(char *str) //same ft_filesize sauf pas de limite spécifiq
 
 void ft_timeout(char *str) //same ft_filesize sauf pas de limite spécifique donnée
 {
-  short temp; 
+  short temp;
+  char nameV[] = "TIMEOUT";
+
   temp = TIMEOUT;
-  if (ft_imput_LFT( "TIMEOUT", &TIMEOUT) == true) 
+  if (ft_imput_LFT(  nameV, &TIMEOUT) == true) 
   {
     Serial.print(F("[DONE] Changement de TIMEOUT = "));
     Serial.print(temp); 
@@ -849,8 +853,11 @@ void ft_timeout(char *str) //same ft_filesize sauf pas de limite spécifique don
 
 void ft_filesize(char *str)   //doit y avoir moyen d'opti
 {
-  short temp = FILE_MAX_SIZE ;      //on fait une copie de la variable  
-  if(ft_imput_LFT( "FILE_MAX_SIZE", &FILE_MAX_SIZE) == true ) //la variable est modif si true
+  short temp = FILE_MAX_SIZE;      //on fait une copie de la variable  
+  char nameV[] = "FILE_MAX_SIZE"; // si direct en argu le compil pense que c'est un string
+
+
+  if(ft_imput_LFT( nameV, &FILE_MAX_SIZE) == true ) //la variable est modif si true
   {
     if(FILE_MAX_SIZE <= 4096)
     {
