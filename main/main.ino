@@ -19,7 +19,8 @@
 
 SoftwareSerial SoftSerial(2, 3); // Serial already used for serial communication GPS connected on D2 port on Grove Shield
 DS1307 clock(CLOCK_PIN_A, CLOCK_PIN_B); //define a object of DS1307 class RTC Clock on I2C port on Grove Shield
-const PROGMEM *char tabOpt[] = { "RESET", "VERSION", "CLOCK", "DATE", "DAY", "TIMEOUT", "LOG_INTERVALL", "FILE_MAX_SIZE" };
+
+*char tabOpt[] = { "RESET", "VERSION", "CLOCK", "DATE", "DAY", "TIMEOUT", "LOG_INTERVALL", "FILE_MAX_SIZE" };
 
 void RGB_color(short red_light_value, short green_light_value, short blue_light_value)
  {
@@ -664,15 +665,16 @@ void ft_changeClock(char *str)
   short minute;
   short seconde;  // ex: 10:04:06
 
-  hour = extractNum(*str, 0);
-  minute = extractNum(*str, 3);
-  seconde = extractNum(*str, 6);
+  hour = extractNum(str, 0);
+  minute = extractNum(str, 3);
+  seconde = extractNum(str, 6);
 
   if(hour <= 23 && minute <= 59 && seconde <= 59 && hour >= 0 && minute >= 0 && seconde >= 0)
   {
     clock.fillByHMS(hour, minute, seconde);//15:28 30"
     clock.setTime();//write time to the RTC chip
-    Serial.println("[DONE] Heure changé avec succès :" + getTime()); 
+    Serial.println(F("[DONE] Heure changé avec succès :"));
+    Serial.println(getTime()); 
   }
   else
     Serial.println(F("[ERROR] Erreur du domaine de definition, valeur attendu: HEURE{0-23}:MINUTE{0-59}:SECONDE{0-59}"));
@@ -685,9 +687,9 @@ void ft_changedate(char *str)  // En vrai je peux compacte les deux en une
   short jour;
   short anne; // ex: 10:04:06
 
-  mois = extractNum(*str, 0);
-  jour = extractNum(*str, 3);
-  anne = extractNum(*str, 6);
+  mois = extractNum(str, 0);
+  jour = extractNum(str, 3);
+  anne = extractNum(str, 6);
 
   if(mois <= 1 && jour <= 31 && anne <= 2099 && mois >= 1 && jour >= 1 && anne >= 2000)
   {
@@ -928,7 +930,7 @@ void modifPara(char* str) // peux peut etre etre simplifier avec des enum ? ou g
 
  
   fptrVoid ftabV[5] = { &ft_reset, &ft_version, &ft_enterClock, &ft_enterDate, &ft_enterDay};
-  fptrChar ftabC[3] = { &ft_timeout, &ft_log_intervall, &ft_filesize}
+  fptrChar ftabC[3] = { &ft_timeout, &ft_log_intervall, &ft_filesize};
 
 /*
   ftab[0] = &ft_reset;
@@ -966,7 +968,7 @@ void modifPara(char* str) // peux peut etre etre simplifier avec des enum ? ou g
       i++;
   }
   //struct capteurs
-    idVar = ft_imput_capteurs(strC, *pVar); 
+    idVar = ft_imput_capteurs(strC, pVar); 
   if(pVar != NULL)
     ft_beforeModifCapt(pVar, idVar, str);
   else
