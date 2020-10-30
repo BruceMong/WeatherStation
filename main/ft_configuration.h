@@ -26,7 +26,7 @@ extern void ft_modifCapteurs(char* name, short *valuePara, short valueInsere, sh
 extern short ft_strlength(char *str);
 extern short ft_isCaraNum(char c);
 extern short ft_isCaraColon(char c);
-extern short ft_checkStrDate(char* str, short size);
+extern short ft_checkStrHoraire(char* str, short size);
 extern short extractNum(char *str, int s);
 extern void ft_changeClock(char *str);
 extern void ft_changedate(char *str);

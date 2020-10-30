@@ -590,7 +590,7 @@ void ft_modifCapteurs(char* name, short *valuePara, short valueInsere, short max
 
 short ft_strlength(char *str)
 {
-  int i; 
+  short i; 
 
   i = 0;
   while(str[i] != '\0')
@@ -598,40 +598,40 @@ short ft_strlength(char *str)
   return(i);
 }
 
-short ft_isCaraNum(char c)
+boolean ft_isCaraNum(char c)
 {
   if(c >= 48 && c <= 57)
-    return(0);
-  return(1);
+    return(true);
+  return(false);
 }
 
-short ft_isCaraColon(char c)
+boolean ft_isCaraColon(char c)
 {
   if(c == ':')
-    return(0);
-  return(1);
+    return(true);
+  return(false);
 }
 
-short ft_checkStrDate(char* str, short size)
+boolean ft_checkStrHoraire(char* str, short size)
 {
   short i;
-  short verif;
+  boolean verif;
 
-  verif = 0;
+  verif = true;
   i = 0;
   if(ft_strlength(str) == size)
   {
-    while(i < size && verif == 0)
+    while(i < size && verif == true)
     {
       if(i == 2 || i == 5)
-        verif = ft_isCaraColon();
+        verif = ft_isCaraColon(str[i]);
       else 
-        verif = ft_isCaraNum();
+        verif = ft_isCaraNum(str[i]);
     }
-    if (verif == 0)
-      return(0);
+    if (verif == true)
+      return(true);
   }
-  return(1);
+  return(false);
 
 }
 
@@ -698,7 +698,7 @@ void ft_clock(char *str)
 
   sizeStrClock = 8;
 
-  if(ft_checkStrHoraire(str, sizeStrClock) == 0)
+  if(ft_checkStrHoraire(str, sizeStrClock) == true)
     ft_changeClock(str);
   else 
     Serial.println(F("[ERROR] Erreur de Syntaxe, format attendu: HEURE{0-23}:MINUTE{0-59}:SECONDE{0-59}"));
@@ -711,7 +711,7 @@ void ft_date(char *str)
 
   sizeStrdate = 10;
 
-  if(ft_checkStrHoraire(str, sizeStrClock) == 0)
+  if(ft_checkStrHoraire(str, sizeStrClock) == true)
     ft_changedate(str);
   else 
     Serial.println(F("[ERROR] Erreur de Syntaxe, format attendu: MOIS{1-12},JOUR{1-31},ANNEE{2000-2099}"));
@@ -822,7 +822,6 @@ short ft_imput_capteurs(char *strC, Parametre *pVar)
 void ft_log_intervall(char *str) //same ft_filesize sauf pas de limite spécifique donnée
 {
   short temp; 
-
   temp = LOG_INTERVALL;
   if ( ft_imput_LFT( "LOG_INTERVALL", &LOG_INTERVALL) == true)
   {
@@ -838,7 +837,6 @@ void ft_timeout(char *str) //same ft_filesize sauf pas de limite spécifique don
 {
   short temp; 
   temp = TIMEOUT;
-
   if (ft_imput_LFT( "TIMEOUT", &TIMEOUT) == true) 
   {
     Serial.print(F("[DONE] Changement de TIMEOUT = "));
