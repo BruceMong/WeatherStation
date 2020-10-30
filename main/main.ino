@@ -498,7 +498,7 @@ void ft_reset()
 
   clock.fillByYMD(2013,1,19);//Jan 19,2013
   clock.fillByHMS(15,28,30);//15:28 30"
-    clock.fillDayOfWeek(SAT);//Saturday
+  clock.fillDayOfWeek(SAT);//Saturday
   clock.setTime();//write time to the RTC chip
 
   if(NB_CAPTORS >= 1) capteurs[0] = {"LUMIN", 1, "LUMIN_LOW", 255, "LUMIN_HIGH", 768, 0, 1023, LUMIN_PIN, 0};
@@ -534,7 +534,7 @@ boolean ft_checkArguValid(char* str)
   return(true);
 }
 
-void ft_beforeModifCapt(Parametre variable, char *str)  //variable est un pointeur de l'adresse du capteur à traiter 
+void ft_beforeModifCapt(Parametre variable, short idVar, char* str)  //variable est un pointeur de l'adresse du capteur à traiter 
 { 
   if(ft_checkArguValid(str) == false)
   {
@@ -544,11 +544,11 @@ void ft_beforeModifCapt(Parametre variable, char *str)  //variable est un pointe
   }
   else
   {
-    if(dateInsert == 1)
+    if(idVar == 1)
       ft_modifCapteurs( variable.name, &variable.working, ft_findNum(str), 0, 1);
-    else if(dateInsert == 2)
+    else if(idVar == 2)
       ft_modifCapteurs( variable.lowName, &variable.lowValue, ft_findNum(str), variable.maxDom, variable.minDom);
-    else if(dateInsert == 3)
+    else if(idVar == 3)
       ft_modifCapteurs( variable.highName, &variable.highValue, ft_findNum(str), variable.maxDom, variable.minDom);
   }
   return;
@@ -961,7 +961,7 @@ void modifPara(char* str) // peux peut etre etre simplifier avec des enum ? ou g
   if(pVar != NULL)
     ft_beforeModifCapt(*pVar, idVar, str);
   else
-    Serial.println(F("Commande introuvable"));
+    Serial.println(F("[ERROR] Commande introuvable"));
   return;
 }
 
