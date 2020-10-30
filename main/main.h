@@ -42,11 +42,11 @@
 
 typedef struct
 {
-  String name;      //ptetre enlever progmem si on peux pas modif Progmem (a test)
+  char* name;      //ptetre enlever progmem si on peux pas modif Progmem (a test)
   short working;
-  String lowName;
+  char* lowName;
   short lowValue;
-  String highName;
+  char* highName;
   short highValue;
   short maxDom;
   short minDom;

@@ -678,7 +678,7 @@ void ft_changeClock(char *str)
   }
   else
     Serial.println(F("[ERROR] Erreur du domaine de definition, valeur attendu: HEURE{0-23}:MINUTE{0-59}:SECONDE{0-59}"));
-  return();
+  return;
 }
 
 void ft_changedate(char *str)  // En vrai je peux compacte les deux en une 
@@ -700,7 +700,7 @@ void ft_changedate(char *str)  // En vrai je peux compacte les deux en une
   }
   else
     Serial.println(F("[ERROR] Erreur du domaine de definition, valeur attendu: MOIS{1-12},JOUR{1-31},ANNEE{2000-2099}"));
-  return();
+  return;
 }
 
 void ft_clock(char *str)
@@ -713,7 +713,7 @@ void ft_clock(char *str)
     ft_changeClock(str);
   else 
     Serial.println(F("[ERROR] Erreur de Syntaxe, format attendu: HEURE{0-23}:MINUTE{0-59}:SECONDE{0-59}"));
-  return();
+  return;
 }
 
 void ft_date(char *str)
@@ -726,7 +726,7 @@ void ft_date(char *str)
     ft_changedate(str);
   else 
     Serial.println(F("[ERROR] Erreur de Syntaxe, format attendu: MOIS{1-12},JOUR{1-31},ANNEE{2000-2099}"));
-  return();
+  return;
 }
 
 
@@ -734,7 +734,7 @@ void ft_date(char *str)
 void ft_day(char *str)
 { 
   int i;
-  char *DAY[7] = "MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN";
+  char *DAY[] = "MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN";
 
   i = 0;
   while(i < 7)
@@ -775,7 +775,7 @@ void ft_version()
   Serial.print(F("Version du programme :")); 
   Serial.print(VERSION);
   Serial.print(F("Numerot de lot :"));
-  Serial.println(NUMLOT);
+  Serial.println(NUM_LOT);
 }
 
 void ft_enterClock()
