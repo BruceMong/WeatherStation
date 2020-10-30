@@ -446,10 +446,6 @@ void loop()
 
 
 
-
-
-
-
 short ft_findNum(char *msg)
 {
   short i; 
@@ -538,15 +534,8 @@ boolean ft_checkArguValid(char* str)
   return(true);
 }
 
-void ft_beforeModifCapt(Parametre variable, char *str)
-{
-  String *name;
-  short *ValuePara
-
-  short lastValue;
-  short valueInsere;
-  short *pVar;
-  
+void ft_beforeModifCapt(Parametre variable, char *str)  //variable est un pointeur de l'adresse du capteur à traiter 
+{ 
   if(ft_checkArguValid(str) == false)
   {
     Serial.print(F("[ERROR] Argument de "));
@@ -556,11 +545,11 @@ void ft_beforeModifCapt(Parametre variable, char *str)
   else
   {
     if(dateInsert == 1)
-      ft_modifCapteurs( &variable.name, &variable.working, ft_findNum(str), 0, 1);
+      ft_modifCapteurs( variable.name, &variable.working, ft_findNum(str), 0, 1);
     else if(dateInsert == 2)
-      ft_modifCapteurs( &variable.lowName, &variable.lowValue, ft_findNum(str), &variable.maxDom, &variable.minDom);
+      ft_modifCapteurs( variable.lowName, &variable.lowValue, ft_findNum(str), variable.maxDom, variable.minDom);
     else if(dateInsert == 3)
-      ft_modifCapteurs( &variable.highName, &variable.highValue, ft_findNum(str), &variable.maxDom, &variable.minDom);
+      ft_modifCapteurs( variable.highName, &variable.highValue, ft_findNum(str), variable.maxDom, variable.minDom);
   }
   return;
 }
@@ -569,7 +558,7 @@ void ft_beforeModifCapt(Parametre variable, char *str)
     
 //copy paste en haut 
 
-void ft_modifCapteurs(String name, short *valuePara, short valueInsere, short max, short min)
+void ft_modifCapteurs(char* name, short *valuePara, short valueInsere, short max, short min)
 {
 
   if(valueInsere >= min && valueInsere <= max)
@@ -811,17 +800,17 @@ short ft_imput_capteurs(char *strC, Parametre *pVar)
   {
     if(strcmp(capteurs[i].name, strC) == true)
     {
-      pVar = capteurs[i];
+      pVar = &capteurs[i];
       return(1);
     }
     if(strcmp(capteurs[i].lowName, strC) == true)
     {
-       pVar = capteurs[i];
+       pVar = &capteurs[i];
       return(2);
     }
     if(strcmp(capteurs[i].highName, strC) == true)
     {
-       pVar = capteurs[i];
+       pVar = &capteurs[i];
       return(3);
     }
     i++;
@@ -970,7 +959,7 @@ void modifPara(char* str) // peux peut etre etre simplifier avec des enum ? ou g
   //struct capteurs
     idVar = ft_imput_capteurs(strC, pVar); 
   if(pVar != NULL)
-    ft_beforeModifCapt(pVar, idVar, str);
+    ft_beforeModifCapt(*pVar, idVar, str);
   else
     Serial.println(F("Commande introuvable"));
   return;
