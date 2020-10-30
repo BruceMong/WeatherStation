@@ -819,63 +819,63 @@ short ft_imput_capteurs(char *strC, Parametre *pVar)
 }
 
 
-void ft_log_intervall(char *str)
+void ft_log_intervall(char *str) //same ft_filesize sauf pas de limite spécifique donnée
 {
-
   short temp; 
 
   temp = LOG_INTERVALL;
-  if (( ft_imput_LFT( "LOG_INTERVALL", &LOG_INTERVALL, ft_findNum(str), 0, 0) )== true)
+  if ( ft_imput_LFT( "LOG_INTERVALL", &LOG_INTERVALL) == true)
+  {
     Serial.print(F("[DONE] Changement de LOG_INTERVALL = "));
     Serial.print(temp); 
     Serial.print(F(" en LOG_INTERVALL = "));
-    Serial.println(newValue);
-
+    Serial.println(LOG_INTERVALL);
+  }
   return;
 }
 
-void ft_timeout(char *str)
+void ft_timeout(char *str) //same ft_filesize sauf pas de limite spécifique donnée
 {
-
   short temp; 
-
   temp = TIMEOUT;
-  if (ft_imput_LFT( "TIMEOUT", &TIMEOUT, ft_findNum(str), 0, 0) == true)
+
+  if (ft_imput_LFT( "TIMEOUT", &TIMEOUT) == true) 
+  {
     Serial.print(F("[DONE] Changement de TIMEOUT = "));
     Serial.print(temp); 
     Serial.print(F(" en TIMEOUT = "));
-    Serial.println(newValue);
-    
-
+    Serial.println(TIMEOUT);
+   } 
   return;
 }
 
-void ft_filesize(char *str) 
+void ft_filesize(char *str)   //doit y avoir moyen d'opti
 {
-  short temp = FILE_MAX_SIZE ;
-  if(ft_imput_LFT( "FILE_MAX_SIZE", &FILE_MAX_SIZE, ft_findNum(str), 0, 0) == true)
+  short temp = FILE_MAX_SIZE ;      //on fait une copie de la variable  
+  if(ft_imput_LFT( "FILE_MAX_SIZE", &FILE_MAX_SIZE) == true ) //la variable est modif si true
   {
     if(FILE_MAX_SIZE <= 4096)
+    {
       Serial.print(F("[DONE] Changement de FILE_MAX_SIZE = "));
        Serial.print(temp); 
        Serial.print(F(" en FILE_MAX_SIZE = "));
-       Serial.println(newValue);
-       
-    if(FILE_MAX_SIZE == 4096 && imputArchiFile == false)
-    {
-      ft_archivage();
-      imputArchiFile = true;
-    }
-    if(FILE_MAX_SIZE > 4096)
+       Serial.println(FILE_MAX_SIZE);
+      if(FILE_MAX_SIZE == 4096 && imputArchiFile == false)
+      {
+        ft_archivage();
+        imputArchiFile = true;
+      }
+    }  
+    if(FILE_MAX_SIZE > 4096) //check de la limite spécifique a file max size 
     {
       Serial.println(F("[WRONG] Domaine de de def de FILE_MAX_SIZE : {0, 4096}"));
-      FILE_MAX_SIZE = temp;
+      FILE_MAX_SIZE = temp; // on réatribue la valeur temp du début pcq var modifier dans ft_imput_lft
     }
   }
 }
 
 
-boolean ft_imput_LFT(char *str, short *var, String nameVa)
+boolean ft_imput_LFT(char *str, short *var) //fct qui sert a check si l'argu est bon syntaxiquement et si oui il check ausis si c'est positif ) = true alors il renvoi true :)
 { 
   short temp;
   short newValue;
@@ -885,21 +885,22 @@ boolean ft_imput_LFT(char *str, short *var, String nameVa)
   if(ft_checkArguValid(str) == false)
   {
     Serial.print(F("[ERROR] Argument de "));
-    Serial.print(nameVa);
+    Serial.print(str);
     Serial.println(F("non valide, veuillez entrer une valeur numérique (0-9)"));
     return(false);
   }
 
   newValue = ft_findNum(str);
-  if (newValue < 0)
+  if(newValue < 0)
   {
     Serial.print(F("[ERROR] Valeur:")); 
     Serial.print(newValue);
     Serial.println(F(" incorrecte veuillez entrer une valeur positive ou nul"));
+    return(false);
   }
   else
   {
-    *var = temp;
+    *var = temp;  // si valeur argu correcte alors on l'attribut a la var
     return(true);
   }
   return(false);
@@ -921,13 +922,6 @@ void modifPara(char* str) // peux peut etre etre simplifier avec des enum ? ou g
   fptrVoid ftabV[5] = { &ft_reset, &ft_version, &ft_enterClock, &ft_enterDate, &ft_enterDay};
   fptrChar ftabC[3] = { &ft_timeout, &ft_log_intervall, &ft_filesize};
 
-/*
-  ftab[0] = &ft_reset;
-  ftab[1] = &ft_version;
-  ftab[2] = &ft_enterClock;
-  ftab[3] = &ft_enterDate;
-  ftab[4] = &ft_enterDay;
-*/
   if(dateInsert > 0) 
   {
     ft_modifCapteursHoraire(str);
@@ -964,10 +958,6 @@ void modifPara(char* str) // peux peut etre etre simplifier avec des enum ? ou g
     Serial.println(F("[ERROR] Commande introuvable"));
   return;
 }
-
-
-
-
 
 
 void configuration()
@@ -1007,7 +997,7 @@ void configuration()
     if( i != 0) //info recu
     {
       if( i > SIZE_BUFFER)
-        Serial.print(F("[ERREUR] Trop de caractere recu"));
+        Serial.print(F("[ERROR] Trop de caractere recu"));
       else
         modifPara(ft_newStrFromBuff(bufferSerial));
         
